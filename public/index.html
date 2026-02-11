@@ -7,25 +7,33 @@
 <body>
   <h2>Ultraviolet Proxy</h2>
 
-  <input id="url" placeholder="https://example.com">
+  <input id="url" placeholder="https://example.com" style="width:300px;">
   <button onclick="go()">Go</button>
 
   <script src="/uv/uv.bundle.js"></script>
   <script src="/uv/uv.config.js"></script>
 
-<script>
-  async function go() {
-    if ('serviceWorker' in navigator) {
-      const reg = await navigator.serviceWorker.register('/uv/sw.js');
-      await navigator.serviceWorker.ready;
+  <script>
+    async function go() {
+      console.log('Go clicked');
+
+      if ('serviceWorker' in navigator) {
+        await navigator.serviceWorker.register('/uv/sw.js');
+        await navigator.serviceWorker.ready;
+        console.log('SW ready');
+      }
+
+      const input = document.getElementById('url').value;
+      console.log('Input:', input);
+
+      const encoded = __uv$config.encodeUrl(input);
+      console.log('Encoded:', encoded);
+
+      const target = __uv$config.prefix + encoded;
+      console.log('Target:', target);
+
+      location.href = target;
     }
-
-    const input = document.getElementById('url').value;
-    const encoded = __uv$config.encodeUrl(input);
-
-    location.href = __uv$config.prefix + encoded;
-  }
-</script>
-
+  </script>
 </body>
 </html>
