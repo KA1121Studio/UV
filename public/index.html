@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>UV</title>
+</head>
+<body>
+  <h2>Ultraviolet Proxy</h2>
+
+  <input id="url" placeholder="https://example.com">
+  <button onclick="go()">Go</button>
+
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
+
+  <script>
+    async function go() {
+      if ('serviceWorker' in navigator) {
+        await navigator.serviceWorker.register('/uv/sw.js', { scope: '/uv/' });
+      }
+
+      const input = document.getElementById('url').value;
+      const encoded = __uv$config.encodeUrl(input);
+      location.href = '/uv/service/' + encoded;
+    }
+  </script>
+</body>
+</html>
