@@ -14,26 +14,35 @@
   <script src="/uv/uv.config.js"></script>
 
   <script>
-    async function go() {
-      console.log('Go clicked');
+  async function go() {
+    console.log('Go clicked');
 
-      if ('serviceWorker' in navigator) {
-        await navigator.serviceWorker.register('/uv/sw.js');
-        await navigator.serviceWorker.ready;
-        console.log('SW ready');
-      }
+    console.log('UV bundle:', typeof Ultraviolet);
+    console.log('UV config:', typeof __uv$config);
 
-      const input = document.getElementById('url').value;
-      console.log('Input:', input);
-
-      const encoded = __uv$config.encodeUrl(input);
-      console.log('Encoded:', encoded);
-
-      const target = __uv$config.prefix + encoded;
-      console.log('Target:', target);
-
-      location.href = target;
+    if (!window.__uv$config) {
+      alert('__uv$config is undefined');
+      return;
     }
-  </script>
+
+    if ('serviceWorker' in navigator) {
+      await navigator.serviceWorker.register('/uv/sw.js');
+      await navigator.serviceWorker.ready;
+      console.log('SW ready');
+    }
+
+    const input = document.getElementById('url').value;
+    console.log('Input:', input);
+
+    const encoded = __uv$config.encodeUrl(input);
+    console.log('Encoded:', encoded);
+
+    const target = __uv$config.prefix + encoded;
+    console.log('Target:', target);
+
+    location.href = target;
+  }
+</script>
+
 </body>
 </html>
