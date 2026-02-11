@@ -16,7 +16,8 @@
   <script>
     async function go() {
       if ('serviceWorker' in navigator) {
-        await navigator.serviceWorker.register('/uv/sw.js');
+        await navigator.serviceWorker.register('/uv/sw.js', { scope: '/' });
+
 
       }
 
