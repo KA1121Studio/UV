@@ -18,29 +18,18 @@
     try {
       console.log('Go clicked');
 
-      console.log('Ultraviolet:', Ultraviolet);
-      console.log('__uv$config:', __uv$config);
-
       if ('serviceWorker' in navigator) {
-        console.log('Registering SW...');
         await navigator.serviceWorker.register('/uv/sw.js');
-        console.log('Waiting SW ready...');
-        await navigator.serviceWorker.ready;
-        console.log('SW ready');
+        console.log('SW registered');
       }
 
       const input = document.getElementById('url').value.trim();
-      console.log('Raw input:', input);
-
       const url = input.startsWith('http') ? input : 'https://' + input;
-      console.log('Final URL:', url);
 
       const encoded = Ultraviolet.codec.xor.encode(url);
-      console.log('Encoded:', encoded);
-
       const target = __uv$config.prefix + encoded;
-      console.log('Target:', target);
 
+      console.log('Target:', target);
       location.href = target;
 
     } catch (e) {
