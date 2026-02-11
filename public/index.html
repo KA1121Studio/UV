@@ -12,18 +12,10 @@
 
   <script src="/uv/uv.bundle.js"></script>
   <script src="/uv/uv.config.js"></script>
-
-  <script>
+  
+<script>
   async function go() {
     console.log('Go clicked');
-
-    console.log('UV bundle:', typeof Ultraviolet);
-    console.log('UV config:', typeof __uv$config);
-
-    if (!window.__uv$config) {
-      alert('__uv$config is undefined');
-      return;
-    }
 
     if ('serviceWorker' in navigator) {
       await navigator.serviceWorker.register('/uv/sw.js');
@@ -31,15 +23,15 @@
       console.log('SW ready');
     }
 
-    const input = document.getElementById('url').value;
-    console.log('Input:', input);
+    const input = document.getElementById('url').value.trim();
 
-    const encoded = __uv$config.encodeUrl(input);
-    console.log('Encoded:', encoded);
+    // 自動で https:// 付ける
+    const url = input.startsWith('http') ? input : 'https://' + input;
 
+    const encoded = Ultraviolet.codec.xor.encode(url);
     const target = __uv$config.prefix + encoded;
-    console.log('Target:', target);
 
+    console.log('Target:', target);
     location.href = target;
   }
 </script>
