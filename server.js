@@ -4,10 +4,6 @@ const { createBareServer } = require('@tomphttp/bare-server-node');
 const app = express();
 const bareServer = createBareServer('/bare/');
 
-app.use(express.static('public'));
-app.use('/uv', express.static('uv'));
-
-// Bare server を HTTP upgrade & fetch に接続
 app.use((req, res, next) => {
   if (bareServer.shouldRoute(req)) {
     bareServer.routeRequest(req, res);
@@ -15,6 +11,9 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+app.use(express.static('public'));
+app.use('/uv', express.static('uv'));
 
 app.on('upgrade', (req, socket, head) => {
   if (bareServer.shouldRoute(req)) {
